@@ -171,7 +171,7 @@
 #define CFG_ENABLE_SUSPEND_NAME                "gEnableSuspend"
 #define CFG_ENABLE_SUSPEND_MIN                 ( 0 ) //No support for suspend
 #define CFG_ENABLE_SUSPEND_MAX                 ( 3 ) //Map to Deep Sleep
-#define CFG_ENABLE_SUSPEND_DEFAULT             ( 1 ) //Map to Standby
+#define CFG_ENABLE_SUSPEND_DEFAULT             ( 3 ) //Map to Standby
 
 //Driver start/stop command mappings
 #define CFG_ENABLE_ENABLE_DRIVER_STOP_NAME     "gEnableDriverStop"
@@ -207,7 +207,7 @@
 #define CFG_ENABLE_BMPS_NAME                   "gEnableBmps"
 #define CFG_ENABLE_BMPS_MIN                    ( 0 )
 #define CFG_ENABLE_BMPS_MAX                    ( 1 )
-#define CFG_ENABLE_BMPS_DEFAULT                ( 1 )
+#define CFG_ENABLE_BMPS_DEFAULT                ( 0 )
 
 #define CFG_BMPS_MINIMUM_LI_NAME               "gBmpsMinListenInterval"
 #define CFG_BMPS_MINIMUM_LI_MIN                ( 1 )
@@ -377,7 +377,7 @@ typedef enum
 #define CFG_AP_QOS_UAPSD_MODE_NAME             "gEnableApUapsd" // ACs to setup U-APSD for at assoc
 #define CFG_AP_QOS_UAPSD_MODE_MIN              ( 0 )
 #define CFG_AP_QOS_UAPSD_MODE_MAX              ( 1 ) 
-#define CFG_AP_QOS_UAPSD_MODE_DEFAULT          ( 1 )   
+#define CFG_AP_QOS_UAPSD_MODE_DEFAULT          ( 0 )   
 
 #define CFG_AP_COUNTRY_CODE                    "gAPCntryCode"
 #define CFG_AP_COUNTRY_CODE_MIN                "USI"
@@ -409,8 +409,8 @@ typedef enum
 
 #define CFG_AP_OBSS_PROTECTION_MODE_NAME       "gEnableApOBSSProt" 
 #define CFG_AP_OBSS_PROTECTION_MODE_MIN        ( 0 )
-#define CFG_AP_OBSS_PROTECTION_MODE_MAX        ( 1 ) 
-#define CFG_AP_OBSS_PROTECTION_MODE_DEFAULT    ( 0 )   
+#define CFG_AP_OBSS_PROTECTION_MODE_MAX        ( 1 )
+#define CFG_AP_OBSS_PROTECTION_MODE_DEFAULT    ( 1 )   
 
 #define CFG_AP_STA_SECURITY_SEPERATION_NAME    "gDisableIntraBssFwd"
 #define CFG_AP_STA_SECURITY_SEPERATION_MIN     ( 0 )
@@ -460,7 +460,7 @@ typedef enum
 #define CFG_AP_KEEP_ALIVE_PERIOD_NAME          "gApKeepAlivePeriod"
 #define CFG_AP_KEEP_ALIVE_PERIOD_MIN           ( 0 )
 #define CFG_AP_KEEP_ALIVE_PERIOD_MAX           ( 255)
-#define CFG_AP_KEEP_ALIVE_PERIOD_DEFAULT       ( 20 )
+#define CFG_AP_KEEP_ALIVE_PERIOD_DEFAULT       ( 25 )
 
 #define CFG_GO_KEEP_ALIVE_PERIOD_NAME          "gGoKeepAlivePeriod"
 #define CFG_GO_KEEP_ALIVE_PERIOD_MIN           ( 0 )
@@ -505,7 +505,7 @@ typedef enum
 #define CFG_PASSIVE_MAX_CHANNEL_TIME_NAME      "gPassiveMaxChannelTime"
 #define CFG_PASSIVE_MAX_CHANNEL_TIME_MIN       ( 0 )
 #define CFG_PASSIVE_MAX_CHANNEL_TIME_MAX       ( 10000 )
-#define CFG_PASSIVE_MAX_CHANNEL_TIME_DEFAULT   ( 110 )
+#define CFG_PASSIVE_MAX_CHANNEL_TIME_DEFAULT   ( 120 )
 
 #define CFG_PASSIVE_MIN_CHANNEL_TIME_NAME      "gPassiveMinChannelTime"
 #define CFG_PASSIVE_MIN_CHANNEL_TIME_MIN       ( 0 )
@@ -515,12 +515,12 @@ typedef enum
 #define CFG_ACTIVE_MAX_CHANNEL_TIME_NAME       "gActiveMaxChannelTime"
 #define CFG_ACTIVE_MAX_CHANNEL_TIME_MIN        ( 0 )
 #define CFG_ACTIVE_MAX_CHANNEL_TIME_MAX        ( 10000 )
-#define CFG_ACTIVE_MAX_CHANNEL_TIME_DEFAULT    ( 40 )
+#define CFG_ACTIVE_MAX_CHANNEL_TIME_DEFAULT    ( 50 )
 
 #define CFG_ACTIVE_MIN_CHANNEL_TIME_NAME       "gActiveMinChannelTime"
 #define CFG_ACTIVE_MIN_CHANNEL_TIME_MIN        ( 0 )
 #define CFG_ACTIVE_MIN_CHANNEL_TIME_MAX        ( 10000 )
-#define CFG_ACTIVE_MIN_CHANNEL_TIME_DEFAULT    ( 20 )
+#define CFG_ACTIVE_MIN_CHANNEL_TIME_DEFAULT    ( 30 )
 
 #define CFG_MAX_PS_POLL_NAME                   "gMaxPsPoll"
 #define CFG_MAX_PS_POLL_MIN                    WNI_CFG_MAX_PS_POLL_STAMIN
@@ -575,7 +575,7 @@ typedef enum
 #define CFG_DATA_INACTIVITY_TIMEOUT_NAME       "gDataInactivityTimeout"
 #define CFG_DATA_INACTIVITY_TIMEOUT_MIN        ( 1 )
 #define CFG_DATA_INACTIVITY_TIMEOUT_MAX        ( 255 )
-#define CFG_DATA_INACTIVITY_TIMEOUT_DEFAULT    ( 20 )
+#define CFG_DATA_INACTIVITY_TIMEOUT_DEFAULT    ( 200 )
 
 #define CFG_NTH_BEACON_FILTER_NAME             "gNthBeaconFilter"
 #define CFG_NTH_BEACON_FILTER_MIN              ( WNI_CFG_NTH_BEACON_FILTER_STAMIN )
@@ -590,7 +590,7 @@ typedef enum
 #define CFG_INFRA_STA_KEEP_ALIVE_PERIOD_NAME          "gStaKeepAlivePeriod"
 #define CFG_INFRA_STA_KEEP_ALIVE_PERIOD_MIN           ( 0 )
 #define CFG_INFRA_STA_KEEP_ALIVE_PERIOD_MAX           ( 65535)
-#define CFG_INFRA_STA_KEEP_ALIVE_PERIOD_DEFAULT       ( 0 )
+#define CFG_INFRA_STA_KEEP_ALIVE_PERIOD_DEFAULT       ( 30 )
 
 //WMM configuration
 #define CFG_QOS_WMM_MODE_NAME                             "WmmIsEnabled"
@@ -951,7 +951,7 @@ typedef enum
 #define CFG_BTC_DHCP_PROT_ON_SCO_NAME        "btcDhcpProtOnSco"
 #define CFG_BTC_DHCP_PROT_ON_SCO_MIN         ( 0 )
 #define CFG_BTC_DHCP_PROT_ON_SCO_MAX         ( 1 )
-#define CFG_BTC_DHCP_PROT_ON_SCO_DEFAULT     ( 0 )
+#define CFG_BTC_DHCP_PROT_ON_SCO_DEFAULT     ( 1 )
 
 #if defined WLAN_FEATURE_VOWIFI_11R
 #define CFG_FT_ENABLE_NAME                              "gFtEnabled"
@@ -988,7 +988,7 @@ typedef enum
 #define CFG_BCN_EARLY_TERM_WAKE_NAME                 "beaconEarlyTerminationWakeInterval"
 #define CFG_BCN_EARLY_TERM_WAKE_MIN                  ( 2 )
 #define CFG_BCN_EARLY_TERM_WAKE_MAX                  ( 255 )
-#define CFG_BCN_EARLY_TERM_WAKE_DEFAULT              ( 3 )
+#define CFG_BCN_EARLY_TERM_WAKE_DEFAULT              ( 10 )
 
 #ifdef WLAN_FEATURE_NEIGHBOR_ROAMING
 #define CFG_NEIGHBOR_SCAN_TIMER_PERIOD_NAME             "gNeighborScanTimerPeriod"
@@ -1084,7 +1084,7 @@ typedef enum
 #define CFG_ENABLE_HOST_ARPOFFLOAD_NAME         "hostArpOffload"
 #define CFG_ENABLE_HOST_ARPOFFLOAD_MIN          ( 0 )
 #define CFG_ENABLE_HOST_ARPOFFLOAD_MAX          ( 1 )
-#define CFG_ENABLE_HOST_ARPOFFLOAD_DEFAULT      ( 0 )
+#define CFG_ENABLE_HOST_ARPOFFLOAD_DEFAULT      ( 1 )
 
 #define CFG_ENABLE_BTAMP_NAME                   "gEnableBtAmp"
 #define CFG_ENABLE_BTAMP_MIN                    ( 0 )
@@ -1143,19 +1143,19 @@ typedef enum
 #define CFG_VHT_ENABLE_RX_MCS_8_9               "gVhtRxMCS"
 #define CFG_VHT_ENABLE_RX_MCS_8_9_MIN           ( 0 )
 #define CFG_VHT_ENABLE_RX_MCS_8_9_MAX           ( 2 )
-#define CFG_VHT_ENABLE_RX_MCS_8_9_DEFAULT       ( 0 )
+#define CFG_VHT_ENABLE_RX_MCS_8_9_DEFAULT       ( 2 )
 
 #define CFG_VHT_ENABLE_TX_MCS_8_9               "gVhtTxMCS"
 #define CFG_VHT_ENABLE_TX_MCS_8_9_MIN           ( 0 )
 #define CFG_VHT_ENABLE_TX_MCS_8_9_MAX           ( 2 )
-#define CFG_VHT_ENABLE_TX_MCS_8_9_DEFAULT       ( 0 )
+#define CFG_VHT_ENABLE_TX_MCS_8_9_DEFAULT       ( 2 )
 
 #endif
 
 #define CFG_REPORT_MAX_LINK_SPEED                  "gReportMaxLinkSpeed"
 #define CFG_REPORT_MAX_LINK_SPEED_MIN              ( eHDD_LINK_SPEED_REPORT_ACTUAL )
 #define CFG_REPORT_MAX_LINK_SPEED_MAX              ( eHDD_LINK_SPEED_REPORT_MAX_SCALED )
-#define CFG_REPORT_MAX_LINK_SPEED_DEFAULT          ( eHDD_LINK_SPEED_REPORT_ACTUAL )
+#define CFG_REPORT_MAX_LINK_SPEED_DEFAULT          ( eHDD_LINK_SPEED_REPORT_MAX_SCALED )
 
 /*
  * RSSI Thresholds
@@ -1267,7 +1267,7 @@ typedef enum
 #define CFG_ENABLE_SKIP_DFS_IN_P2P_SEARCH_NAME       "gSkipDfsChannelInP2pSearch"
 #define CFG_ENABLE_SKIP_DFS_IN_P2P_SEARCH_MIN        ( 0 )
 #define CFG_ENABLE_SKIP_DFS_IN_P2P_SEARCH_MAX        ( 1 )
-#define CFG_ENABLE_SKIP_DFS_IN_P2P_SEARCH_DEFAULT    ( 0 )
+#define CFG_ENABLE_SKIP_DFS_IN_P2P_SEARCH_DEFAULT    ( 1 )
 
 /*
  * Ignore Dynamic Dtim in case of P2P
@@ -1278,13 +1278,13 @@ typedef enum
 #define CFG_IGNORE_DYNAMIC_DTIM_IN_P2P_MODE_NAME       "gIgnoreDynamicDtimInP2pMode"
 #define CFG_IGNORE_DYNAMIC_DTIM_IN_P2P_MODE_MIN        ( 0 )
 #define CFG_IGNORE_DYNAMIC_DTIM_IN_P2P_MODE_MAX        ( 1 )
-#define CFG_IGNORE_DYNAMIC_DTIM_IN_P2P_MODE_DEFAULT    ( 0 )
+#define CFG_IGNORE_DYNAMIC_DTIM_IN_P2P_MODE_DEFAULT    ( 1 )
 
 
 #define CFG_ENABLE_AUTOMATIC_TX_POWER_CONTROL_NAME  "gEnableAutomaticTxPowerControl"
 #define CFG_ENABLE_AUTOMATIC_TX_POWER_CONTROL_MIN        ( 0 )
 #define CFG_ENABLE_AUTOMATIC_TX_POWER_CONTROL_MAX        ( 1 )
-#define CFG_ENABLE_AUTOMATIC_TX_POWER_CONTROL_DEFAULT    ( 1 )
+#define CFG_ENABLE_AUTOMATIC_TX_POWER_CONTROL_DEFAULT    ( 0 )
 
 #define CFG_SHORT_GI_40MHZ_NAME                "gShortGI40Mhz"
 #define CFG_SHORT_GI_40MHZ_MIN                 0
@@ -1337,6 +1337,13 @@ typedef enum
 #define CFG_MC_ADDR_LIST_ENABLE_MAX           ( 1 )
 #define CFG_MC_ADDR_LIST_ENABLE_DEFAULT       ( 0 )
 
+#ifdef WLAN_ACTIVEMODE_OFFLOAD_FEATURE
+#define CFG_ACTIVEMODE_OFFLOAD_ENABLE         "gEnableActiveModeOffload"
+#define CFG_ACTIVEMODE_OFFLOAD_ENABLE_MIN     ( 0 )
+#define CFG_ACTIVEMODE_OFFLOAD_ENABLE_MAX     ( 1 )
+#define CFG_ACTIVEMODE_OFFLOAD_ENABLE_DEFAULT ( 1 )
+#endif
+
 /*--------------------------------------------------------------------------- 
   Type declarations
   -------------------------------------------------------------------------*/ 
@@ -1359,6 +1366,9 @@ typedef struct
    v_BOOL_t      fSupplicantCountryCodeHasPriority;
    v_BOOL_t      fEnforceCountryCodeMatch;
    v_BOOL_t      fEnforceDefaultDomain;
+#ifdef WLAN_ACTIVEMODE_OFFLOAD_FEATURE
+   v_BOOL_t      fEnableActiveModeOffload;
+#endif
    v_U32_t       Cfg1Id;
    v_U32_t       Cfg2Id;
    v_U32_t       Cfg3Id;

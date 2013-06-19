@@ -2127,6 +2127,18 @@ eHalStatus sme_SetTmLevel(tHalHandle hHal, v_U16_t newTMLevel, v_U16_t tmMode);
 void sme_featureCapsExchange(tHalHandle hHal);
 
 /*---------------------------------------------------------------------------
+  \brief sme_disableActiveModeOffload() - SME interface to disable Active mode Offload capabilitu
+  between in Host.
+
+  \param  hHal - HAL handle for device
+
+  \return NONE
+
+---------------------------------------------------------------------------*/
+void sme_disableFeatureCapablity(tANI_U8 feature_index);
+
+
+/*---------------------------------------------------------------------------
 
   \brief sme_GetDefaultCountryCodeFrmNv() - SME interface to get the default 
          country code

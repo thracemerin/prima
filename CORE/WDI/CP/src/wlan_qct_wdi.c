@@ -94,6 +94,7 @@
 #define MAC_ADDR_ARRAY(a) (a)[0], (a)[1], (a)[2], (a)[3], (a)[4], (a)[5]
 #define MAC_ADDRESS_STR "%02x:%02x:%02x:%02x:%02x:%02x"
 
+#define FEATURE_NOT_SUPPORTED 128
 
 #ifdef FEATURE_WLAN_SCAN_PNO
 #define WDI_PNO_VERSION_MASK 0x8000
@@ -107,7 +108,19 @@ static tWlanFeatCaps *gpFwWlanFeatCaps = NULL;
  * and other two places - wlan_hal_msg.h and halMsg.c (FW file)
  */
 static placeHolderInCapBitmap supportEnabledFeatures[] =
-   {MCC, P2P, DOT11AC, SLM_SESSIONIZATION};
+   {MCC, P2P, DOT11AC, SLM_SESSIONIZATION
+#ifdef WLAN_SOFTAP_VSTA_FEATURE
+    ,SAP32STA
+#else
+    ,FEATURE_NOT_SUPPORTED
+#endif
+#ifdef WLAN_ACTIVEMODE_OFFLOAD_FEATURE
+    ,WLANACTIVE_OFFLOAD
+#else
+    ,FEATURE_NOT_SUPPORTED
+#endif
+   };
+
 
 /*--------------------------------------------------------------------------
    WLAN DAL  State Machine
@@ -24389,6 +24402,20 @@ WDI_featureCapsExchangeReq
    wdiEventData.pUserData       = pUserData;
 
    return WDI_PostMainEvent(&gWDICb, WDI_REQUEST_EVENT, &wdiEventData);
+}
+
+/**
+ @brief Disable Active mode offload in Host
+ 
+ @param  void
+ @see
+ @return void
+*/
+void
+WDI_disableCapablityFeature(wpt_uint8 feature_index)
+{
+   supportEnabledFeatures[feature_index] = 0;
+   return;
 }
 
 /**

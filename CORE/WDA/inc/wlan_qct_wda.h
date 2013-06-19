@@ -130,6 +130,12 @@ typedef enum
 #define IS_MCC_SUPPORTED (WDA_IsWcnssWlanReportedVersionGreaterThanOrEqual( 0, 1, 1, 0))
 #define IS_SLM_SESSIONIZATION_SUPPORTED_BY_FW (WDA_getFwWlanFeatCaps(SLM_SESSIONIZATION))
 
+#ifdef WLAN_ACTIVEMODE_OFFLOAD_FEATURE
+#define IS_ACTIVEMODE_OFFLOAD_FEATURE_ENABLE ((WDA_getFwWlanFeatCaps(WLANACTIVE_OFFLOAD)) & (WDI_getHostWlanFeatCaps(WLANACTIVE_OFFLOAD)))
+#else
+#define IS_ACTIVEMODE_OFFLOAD_FEATURE_ENABLE 0
+#endif
+
 
 /*--------------------------------------------------------------------------
   Definitions for Data path APIs
@@ -1989,6 +1995,7 @@ VOS_STATUS WDA_HALDumpCmdReq(tpAniSirGlobal   pMac,tANI_U32 cmd,
 ============================================================================*/
 void WDA_featureCapsExchange(v_PVOID_t pVosContext);
 
+void WDA_disableCapablityFeature(tANI_U8 feature_index);
 /*==========================================================================
    FUNCTION    WDA_getHostWlanFeatCaps
 

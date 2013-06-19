@@ -4193,4 +4193,11 @@ typedef struct sAniSetTmLevelReq
     tANI_U16                newTmLevel;
 } tAniSetTmLevelReq, *tpAniSetTmLevelReq;
 
+typedef struct sSirActiveModeSetBcnFilterReq
+{
+   tANI_U16               messageType;
+   tANI_U16               length;
+   tANI_U8                seesionId;
+} tSirSetActiveModeSetBncFilterReq, *tpSirSetActiveModeSetBncFilterReq;
+
 #endif /* __SIR_API_H */

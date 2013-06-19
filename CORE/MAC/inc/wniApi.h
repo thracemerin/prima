@@ -329,6 +329,7 @@ enum eWniMsgTypes
 #endif // WLAN_WAKEUP_EVENTS
     eWNI_SME_EXCLUDE_UNENCRYPTED,
     eWNI_SME_RSSI_IND, //RSSI indication from TL to be serialized on MC thread
+    eWNI_SME_SET_BCN_FILTER_REQ,
     eWNI_SME_MSG_TYPES_END
 };
 

@@ -2001,7 +2001,12 @@ void limProcessStaMlmAddStaRsp( tpAniSirGlobal pMac, tpSirMsgQ limMsgQ ,tpPESess
         */
         psessionEntry->staId = pAddStaParams->staIdx;
         //if the AssocRsp frame is not acknowledged, then keep alive timer will take care of the state
-        limReactivateHeartBeatTimer(pMac, psessionEntry);
+#ifdef WLAN_ACTIVEMODE_OFFLOAD_FEATURE
+        if(!IS_ACTIVEMODE_OFFLOAD_FEATURE_ENABLE)
+#endif
+        {
+           limReactivateHeartBeatTimer(pMac, psessionEntry);
+        }
         MTRACE(macTrace(pMac, TRACE_CODE_TIMER_ACTIVATE, psessionEntry->peSessionId, eLIM_KEEPALIVE_TIMER));
 
         //assign the sessionId to the timer Object

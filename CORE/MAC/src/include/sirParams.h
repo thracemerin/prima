@@ -74,6 +74,7 @@ typedef enum {
    DOT11AC = 2,
    SLM_SESSIONIZATION = 3,
    DOT11AC_OPMODE = 4,
+   WLANACTIVE_OFFLOAD = 8,
    MAX_FEATURE_SUPPORTED = 128,
 } placeHolderInCapBitmap;
 

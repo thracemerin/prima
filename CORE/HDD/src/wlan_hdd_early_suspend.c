@@ -83,6 +83,7 @@
 #include <linux/wcnss_wlan.h>
 #include <linux/inetdevice.h>
 #include <wlan_hdd_cfg.h>
+#include <wlan_hdd_cfg80211.h>
 /**-----------------------------------------------------------------------------
 *   Preprocessor definitions and constants
 * ----------------------------------------------------------------------------*/
@@ -613,7 +614,7 @@ VOS_STATUS hdd_conf_hostarpoffload(hdd_context_t* pHddCtx, v_BOOL_t fenable)
    struct in_ifaddr *ifa = NULL;
    struct in_device *in_dev;
    int i = 0;
-   hdd_adapter_t *pAdapter = NULL;   
+   hdd_adapter_t *pAdapter = NULL;    
    tSirHostOffloadReq  offLoadRequest;
 
    hddLog(VOS_TRACE_LEVEL_ERROR, "%s: \n", __func__);
@@ -740,6 +741,71 @@ VOS_STATUS hdd_conf_hostarpoffload(hdd_context_t* pHddCtx, v_BOOL_t fenable)
    }
 }
 
+/*
+ * This function is called before setting mcbc filters
+ * to modify filter value considering ARP
+*/
+/*void hdd_mcbc_filter_modification(hdd_context_t* pHddCtx, v_BOOL_t arpFlag,
+                                  tANI_U8 *pMcBcFilter)
+{
+    if (TRUE == arpFlag)
+    {
+        ARP offload is enabled, do not block bcast packets at RXP
+        if (pHddCtx->dynamic_mcbc_filter.enableCfg)
+        {
+            if ((HDD_MCASTBCASTFILTER_FILTER_ALL_MULTICAST_BROADCAST ==
+                  pHddCtx->dynamic_mcbc_filter.mcastBcastFilterSetting))
+            {
+                *pMcBcFilter = HDD_MCASTBCASTFILTER_FILTER_ALL_MULTICAST;
+            }
+            else if ((HDD_MCASTBCASTFILTER_FILTER_ALL_BROADCAST ==
+                  pHddCtx->dynamic_mcbc_filter.mcastBcastFilterSetting))
+            {
+                *pMcBcFilter = HDD_MCASTBCASTFILTER_FILTER_NONE;
+            }
+            else
+            {
+                *pMcBcFilter = pHddCtx->dynamic_mcbc_filter.mcastBcastFilterSetting;
+            }
+
+            pHddCtx->dynamic_mcbc_filter.enableSuspend = TRUE;
+            pHddCtx->dynamic_mcbc_filter.mcBcFilterSuspend = *pMcBcFilter;
+        }
+        else
+        {
+            if (HDD_MCASTBCASTFILTER_FILTER_ALL_MULTICAST_BROADCAST ==
+                  pHddCtx->cfg_ini->mcastBcastFilterSetting)
+            {
+                *pMcBcFilter = HDD_MCASTBCASTFILTER_FILTER_ALL_MULTICAST;
+            }
+            else if (HDD_MCASTBCASTFILTER_FILTER_ALL_BROADCAST ==
+                  pHddCtx->cfg_ini->mcastBcastFilterSetting)
+            {
+                *pMcBcFilter = HDD_MCASTBCASTFILTER_FILTER_NONE;
+            }
+            else
+            {
+                *pMcBcFilter = pHddCtx->cfg_ini->mcastBcastFilterSetting;
+            }
+
+            pHddCtx->dynamic_mcbc_filter.enableSuspend = FALSE;
+        }
+    }
+    else
+    {
+        if (pHddCtx->dynamic_mcbc_filter.enableCfg)
+        {
+            *pMcBcFilter = pHddCtx->dynamic_mcbc_filter.mcastBcastFilterSetting;
+            pHddCtx->dynamic_mcbc_filter.enableSuspend = TRUE;
+        }
+        else
+        {
+            pHddCtx->dynamic_mcbc_filter.enableSuspend = FALSE;
+            *pMcBcFilter = pHddCtx->cfg_ini->mcastBcastFilterSetting;
+        }
+    }
+}*/
+
 void hdd_conf_mcastbcast_filter(hdd_context_t* pHddCtx, v_BOOL_t setfilter)
 {
     eHalStatus halStatus = eHAL_STATUS_FAILURE;
@@ -768,8 +834,24 @@ void hdd_conf_mcastbcast_filter(hdd_context_t* pHddCtx, v_BOOL_t setfilter)
     }
 #else
     wlanRxpFilterParam->setMcstBcstFilter = setfilter;
-    wlanRxpFilterParam->configuredMcstBcstFilterSetting = 
-                      pHddCtx->cfg_ini->mcastBcastFilterSetting;
+//Shaky156
+/*    if (TRUE == setfilter)
+    {
+        if (pHddCtx->cfg_ini->fhostArpOffload)
+        {
+            hdd_mcbc_filter_modification(pHddCtx, TRUE,
+                  &wlanRxpFilterParam->configuredMcstBcstFilterSetting);
+        }
+        else
+        {
+            hdd_mcbc_filter_modification(pHddCtx, FALSE,
+                  &wlanRxpFilterParam->configuredMcstBcstFilterSetting);
+        }
+    }
+    else*/
+        wlanRxpFilterParam->configuredMcstBcstFilterSetting =
+                              pHddCtx->cfg_ini->mcastBcastFilterSetting;
+
     halStatus = sme_ConfigureRxpFilter(pHddCtx->hHal, wlanRxpFilterParam);
 #endif
     if(setfilter && (eHAL_STATUS_SUCCESS == halStatus))
@@ -802,7 +884,7 @@ static void hdd_conf_suspend_ind(hdd_context_t* pHddCtx,
            (eConnectionState_Associated == 
             (WLAN_HDD_GET_STATION_CTX_PTR(pAdapter))->conn_info.connState)) 
         {
-            vstatus = hdd_conf_hostarpoffload(pHddCtx, TRUE);
+vstatus = hdd_conf_hostarpoffload(pHddCtx, TRUE);
             if (!VOS_IS_STATUS_SUCCESS(vstatus))
             {
                 if(pHddCtx->dynamic_mcbc_filter.enableCfg)
@@ -886,6 +968,31 @@ static void hdd_conf_suspend_ind(hdd_context_t* pHddCtx,
                 wlanSuspendParam->configuredMcstBcstFilterSetting = 
                              pHddCtx->cfg_ini->mcastBcastFilterSetting;
             }
+
+            /*vstatus = hdd_conf_hostarpoffload(pAdapter, TRUE);
+            if (!VOS_IS_STATUS_SUCCESS(vstatus))
+            {
+                hdd_mcbc_filter_modification(pHddCtx, FALSE,
+                      &wlanSuspendParam->configuredMcstBcstFilterSetting);
+                hddLog(VOS_TRACE_LEVEL_INFO,
+                       "%s:Failed to enable ARPOFFLOAD Feature %d\n",
+                       __func__, vstatus);
+            }
+            else
+            {
+                hdd_mcbc_filter_modification(pHddCtx, TRUE,
+                      &wlanSuspendParam->configuredMcstBcstFilterSetting);
+            }
+        }
+        else
+        {
+            hdd_mcbc_filter_modification(pHddCtx, FALSE,
+                      &wlanSuspendParam->configuredMcstBcstFilterSetting);
+            if(pHddCtx->dynamic_mcbc_filter.enableCfg)
+            {
+                pHddCtx->dynamic_mcbc_filter.mcBcFilterSuspend = 
+                        wlanSuspendParam->configuredMcstBcstFilterSetting;
+            }*/
         }
 
 #ifdef WLAN_FEATURE_PACKET_FILTERING
@@ -915,6 +1022,7 @@ static void hdd_conf_suspend_ind(hdd_context_t* pHddCtx,
 static void hdd_conf_resume_ind(hdd_context_t* pHddCtx, v_U8_t sessionId)
 {
     VOS_STATUS vstatus;
+//    hdd_context_t* pHddCtx = WLAN_HDD_GET_CTX(pAdapter);
     tpSirWlanResumeParam wlanResumeParam =
       vos_mem_malloc(sizeof(tSirWlanResumeParam));
 
